@@ -5,7 +5,7 @@ import {
     HarmCategory,
     HarmBlockThreshold,
     Content
-  } from "@google/generative-ai"; // ✅ This is correct
+  } from "@google/generative-ai";
 import { Chat } from '../models/Chat';
 
 dotenv.config();
@@ -40,7 +40,7 @@ const model = genAI.getGenerativeModel({
   ],
 });
 
-// Add this function at the top level
+
 const isHealthRelated = (text: string): boolean => {
     const healthKeywords = [
         'health', 'medical', 'doctor', 'patient', 'disease', 'treatment',
