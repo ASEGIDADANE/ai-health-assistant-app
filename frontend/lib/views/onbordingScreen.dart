@@ -35,6 +35,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
+  void _navigateToLogin() {
+    AppNavigator.pushReplacement(context, const LoginScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 top: 20,
                 right: 20,
                 child: TextButton(
-                  onPressed: () {
-                    AppNavigator.pushReplacement(context, LoginScreen());
-                  },
+                  onPressed: _navigateToLogin,
                   child: const Text(
                     "Skip",
                     style: TextStyle(color: Colors.grey, fontSize: 16),
@@ -99,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: TextButton(
                   onPressed: () {
                     if (_currentPage == _onboardingPages.length - 1) {
-                      Navigator.of(context).pushReplacementNamed('/home');
+                      _navigateToLogin();
                     } else {
                       _pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
