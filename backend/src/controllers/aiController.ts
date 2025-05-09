@@ -212,45 +212,4 @@ export const symptomCheck = async (
     }
 };
 
-// endpoint for first aid user send conditon or (burn, cut, etc) and model give response step by step to do first aid or give guidnce 
-export const firstAid = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const { caseType } = req.body;
-        if (!caseType || typeof caseType !== "string") {
-            return res
-                .status(400)
-                .json({ message: "Case type is required and must be a string." });
-        }
-        const prompt = `Based on the following case type: ${caseType} please give me a step by step guide to do first aid`;
-        const chatSession = model.startChat({
-            history: [],
-            generationConfig: {
-                maxOutputTokens: 100,
-            }
-        });
-        const result = await chatSession.sendMessage(prompt);
-        const response = result.response;
-        if (!response || !response.candidates || response.candidates.length === 0) {
-            let message = "No response from model.";
-            if (response?.promptFeedback?.blockReason) {
-                message = `Request blocked due to ${response.promptFeedback.blockReason}.`;
-                if (response.promptFeedback.blockReasonMessage) {
-                    message += ` Message: ${response.promptFeedback.blockReasonMessage}`;
-                }
-            }
-            console.error("Gemini API Error:", message, response?.promptFeedback);
-            return res.status(500).json({ message });
-        }
-        const responseText = await response.text();
-        res.status(200).json({ response: responseText });
-    }
-    catch (err) {
-        console.error("Error in firstAid:", err);
-        next(err);
-    }
-};
 

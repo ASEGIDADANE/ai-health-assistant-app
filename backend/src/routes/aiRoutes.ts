@@ -3,7 +3,6 @@ import {
      generateResponse, 
      getChatHistory,
      symptomCheck,
-    firstAid,
     generalChat
     } from '../controllers/aiController';
 import { authenticateUser } from "../middleWares/authMiddleWare";
@@ -17,7 +16,6 @@ router.post('/personalized/chat', authenticateUser, generateResponse as RequestH
 router.get('/personalized/chat/:userId', authenticateUser, getChatHistory as RequestHandler);
 
 router.post('/general/symptom-check', symptomCheck as RequestHandler);
-router.post('/general/first-aid', firstAid as RequestHandler);
 router.post('/general/chat', generalChat as RequestHandler);
 
 export default router;
