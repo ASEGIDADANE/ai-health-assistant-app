@@ -5,7 +5,7 @@ import {
     HarmCategory,
     HarmBlockThreshold,
     Content
-  } from "@google/generative-ai";
+  } from "@google/generative-ai"; // ✅ This is correct
 import { Chat } from '../models/Chat';
 
 dotenv.config();
@@ -39,19 +39,6 @@ const model = genAI.getGenerativeModel({
     },
   ],
 });
-
-
-const isHealthRelated = (text: string): boolean => {
-    const healthKeywords = [
-        'health', 'medical', 'doctor', 'patient', 'disease', 'treatment',
-        'symptoms', 'diagnosis', 'medicine', 'hospital', 'clinic', 'therapy',
-        'wellness', 'fitness', 'nutrition', 'diet', 'exercise', 'mental health',
-        'physical', 'prevention', 'recovery', 'care', 'wellbeing'
-    ];
-    
-    const lowerText = text.toLowerCase();
-    return healthKeywords.some(keyword => lowerText.includes(keyword));
-};
 
 export const generateResponse = async (
     req: Request,
@@ -109,13 +96,6 @@ export const generateResponse = async (
 
         const responseText = await response.text();
 
-        // Check if the response is health-related
-        if (!isHealthRelated(responseText)) {
-            return res.status(400).json({ 
-                message: "I can only provide responses related to health and medical topics. Please ask a health-related question." 
-            });
-        }
-
         // Save both user message and model response to MongoDB
         chat.messages.push(
             { role: 'user', content: prompt },
@@ -139,6 +119,31 @@ export const generateResponse = async (
     }
 };
 
+export const generalChat = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { prompt } = req.body;
+        const chatSession = model.startChat({
+            history: [],
+            generationConfig: {
+                maxOutputTokens: 100,
+            }
+        });
+        const result = await chatSession.sendMessage(prompt);
+        const response = result.response;
+
+        if (!response || !response.candidates || response.candidates.length === 0) {
+            let message = "No response from model.";
+            if (response?.promptFeedback?.blockReason) {
+                message = `Request blocked due to ${response.promptFeedback.blockReason}.`;
+            }
+        }
+        const responseText = await response.text();
+        res.status(200).json({ response: responseText });
+    } catch (err) {
+        console.error("Error in generalChat:", err);
+        next(err);
+    }
+}
 // Add new endpoint to get chat history
 export const getChatHistory = async (
     req: Request,
@@ -159,3 +164,93 @@ export const getChatHistory = async (
         next(err);
     }
 };
+
+
+// endpoint for symptom check user send list of symptoms and get response from model
+export const symptomCheck = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { symptoms } = req.body;
+        
+        if (!symptoms || typeof symptoms !== "string") {
+            return res
+                .status(400)
+                .json({ message: "Symptoms are required and must be a string." });
+        }
+
+        const prompt = `Based on the following symptoms: ${symptoms} please give me a list of possible conditions.`;
+        const chatSession = model.startChat({
+            history: [],
+            generationConfig: {
+                maxOutputTokens: 100,
+            }
+        });
+        const result = await chatSession.sendMessage(prompt);
+        const response = result.response;
+
+        if (!response || !response.candidates || response.candidates.length === 0) {
+            let message = "No response from model.";
+            if (response?.promptFeedback?.blockReason) {
+                message = `Request blocked due to ${response.promptFeedback.blockReason}.`;
+                if (response.promptFeedback.blockReasonMessage) {
+                    message += ` Message: ${response.promptFeedback.blockReasonMessage}`;
+                }
+            }
+            console.error("Gemini API Error:", message, response?.promptFeedback);
+            return res.status(500).json({ message });
+        }
+
+        const responseText = await response.text();
+        res.status(200).json({ response: responseText });
+    }
+    catch (err) {
+        console.error("Error in symptomCheck:", err);
+        next(err);
+    }
+};
+
+// endpoint for first aid user send conditon or (burn, cut, etc) and model give response step by step to do first aid or give guidnce 
+export const firstAid = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const { caseType } = req.body;
+        if (!caseType || typeof caseType !== "string") {
+            return res
+                .status(400)
+                .json({ message: "Case type is required and must be a string." });
+        }
+        const prompt = `Based on the following case type: ${caseType} please give me a step by step guide to do first aid`;
+        const chatSession = model.startChat({
+            history: [],
+            generationConfig: {
+                maxOutputTokens: 100,
+            }
+        });
+        const result = await chatSession.sendMessage(prompt);
+        const response = result.response;
+        if (!response || !response.candidates || response.candidates.length === 0) {
+            let message = "No response from model.";
+            if (response?.promptFeedback?.blockReason) {
+                message = `Request blocked due to ${response.promptFeedback.blockReason}.`;
+                if (response.promptFeedback.blockReasonMessage) {
+                    message += ` Message: ${response.promptFeedback.blockReasonMessage}`;
+                }
+            }
+            console.error("Gemini API Error:", message, response?.promptFeedback);
+            return res.status(500).json({ message });
+        }
+        const responseText = await response.text();
+        res.status(200).json({ response: responseText });
+    }
+    catch (err) {
+        console.error("Error in firstAid:", err);
+        next(err);
+    }
+};
+
