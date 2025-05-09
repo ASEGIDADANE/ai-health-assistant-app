@@ -65,7 +65,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 right: 20,
                 child: TextButton(
                   onPressed: () {
-                    AppNavigator.pushReplacement(context, Loginscreen());
+                    AppNavigator.pushReplacement(context, LoginScreen());
                   },
                   child: const Text(
                     "Skip",
