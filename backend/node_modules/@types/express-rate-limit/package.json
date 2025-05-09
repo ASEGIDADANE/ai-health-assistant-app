@@ -1,0 +1,42 @@
+{
+    "name": "@types/express-rate-limit",
+    "version": "5.1.3",
+    "description": "TypeScript definitions for express-rate-limit",
+    "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/express-rate-limit",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Cyril Schumacher",
+            "url": "https://github.com/cyrilschumacher",
+            "githubUsername": "cyrilschumacher"
+        },
+        {
+            "name": "makepost",
+            "url": "https://github.com/makepost",
+            "githubUsername": "makepost"
+        },
+        {
+            "name": "Jeremy Forsythe",
+            "url": "https://github.com/jdforsythe",
+            "githubUsername": "jdforsythe"
+        },
+        {
+            "name": "Piotr Błażejewicz",
+            "url": "https://github.com/peterblazejewicz",
+            "githubUsername": "peterblazejewicz"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/express-rate-limit"
+    },
+    "scripts": {},
+    "dependencies": {
+        "@types/express": "*"
+    },
+    "typesPublisherContentHash": "1344e3fcf5d81f6333f591a90f3963c0095ab7b956b18efb34debb43ed0ad881",
+    "typeScriptVersion": "3.6"
+}
