@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/first_aid_guidScreen.dart';
 
 class homeScreen extends StatelessWidget {
   const homeScreen({super.key});
@@ -65,9 +66,7 @@ class homeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (_) => const PlaceholderPage(
-                                  title: 'First Aid Guide',
-                                ),
+                                (_) => FirstAidGuidePage()
                           ),
                         ),
                   ),
