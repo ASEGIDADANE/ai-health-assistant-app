@@ -3,6 +3,7 @@ import { authenticateUser } from '../middleWares/authMiddleWare';
 import { registerUser,loginUser ,logout} from '../controllers/authController';
 
 
+
 const router = express.Router();
 
 router.post('/register', registerUser);
