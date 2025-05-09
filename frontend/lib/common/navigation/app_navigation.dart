@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/onbordingScreen.dart';
 
 class AppNavigator {
 
@@ -22,5 +23,21 @@ class AppNavigator {
       MaterialPageRoute(builder: (context) => widget),
       (Route<dynamic> route) => false
     );
+  }
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/onboarding':
+        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+ 
+      default:
+        return MaterialPageRoute(
+          builder:
+              (_) => Scaffold(
+                body: Center(
+                  child: Text('No route defined for ${settings.name}'),
+                ),
+              ),
+        );
+    }
   }
 }
