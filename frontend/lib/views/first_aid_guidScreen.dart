@@ -54,6 +54,12 @@ class FirstAidGuidePage extends StatelessWidget {
         'Do not try to realign the bone.',
         'Seek medical help immediately.'
       ]),
+      _FirstAidItem('Fractures', 'View emergency steps', [
+        'Immobilize the injured area.',
+        'Apply a cold pack to reduce swelling.',
+        'Do not try to realign the bone.',
+        'Seek medical help immediately.'
+      ]),
     ];
     return Scaffold(
       appBar: AppBar(
