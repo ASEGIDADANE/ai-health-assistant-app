@@ -1,8 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,12 +13,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@google/genai": "^0.13.0",
-    "@google/generative-ai": "^0.24.1",
-    "@types/dotenv": "^6.1.1",
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.15.17",
     "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
@@ -24,6 +23,12 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.9"
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.15.15",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
