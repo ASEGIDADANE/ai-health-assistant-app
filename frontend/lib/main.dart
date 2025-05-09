@@ -1,8 +1,15 @@
+import 'package:flutter/foundation.dart'; // Import for kReleaseMode
 import 'package:flutter/material.dart';
 import 'package:frontend/views/onbordingScreen.dart';
+import 'package:device_preview/device_preview.dart'; // Import device_preview
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode, // Enable it only in debug/profile mode
+      builder: (context) => const MyApp(), // Wrap your app
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,13 +19,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      useInheritedMediaQuery: true, // Important for DevicePreview
+      locale: DevicePreview.locale(context), // Add the locale
+      builder: DevicePreview.appBuilder, // Add the builder
       title: 'ai-health-app',
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const onbordingScreen(),
     );
   }
 }
-
