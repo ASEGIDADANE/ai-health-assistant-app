@@ -10,3 +10,8 @@ const chatSchema = new mongoose.Schema({
 });
 
 export const Chat = mongoose.model('Chat', chatSchema); 
+export interface IChatMessage {
+  role: 'user' | 'model'; // More specific type for role
+  content: string;
+  timestamp: Date;
+}

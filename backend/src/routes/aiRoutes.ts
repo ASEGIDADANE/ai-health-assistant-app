@@ -4,7 +4,7 @@ import {
      getChatHistory,
      symptomCheck,
     generalChat
-    } from '../controllers/aiController';
+    } from '../controllers/chat.controller';
 import { authenticateUser } from "../middleWares/authMiddleWare";
 
 
