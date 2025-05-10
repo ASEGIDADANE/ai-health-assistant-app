@@ -1,7 +1,6 @@
 import express, { RequestHandler } from 'express';
 import {
      generateResponse, 
-     getChatHistory,
      symptomCheck,
     generalChat
     } from '../controllers/chat.controller';
@@ -12,10 +11,9 @@ const router = express.Router();
 
 // POST endpoint for generating AI responses 
 
-router.post('/personalized/chat', authenticateUser, generateResponse as RequestHandler);
-router.get('/personalized/chat/:userId', authenticateUser, getChatHistory as RequestHandler);
+router.post('/personalized/chat', generateResponse as RequestHandler);
 
-router.post('/general/symptom-check', symptomCheck as RequestHandler);
-router.post('/general/chat', generalChat as RequestHandler);
+router.post('/general/symptom-check', authenticateUser, symptomCheck as RequestHandler);
+router.post('/general/chat', authenticateUser, generalChat as RequestHandler);
 
 export default router;
