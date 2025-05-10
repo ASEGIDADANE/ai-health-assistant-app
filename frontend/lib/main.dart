@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       useInheritedMediaQuery: true, // Important for DevicePreview
       locale: DevicePreview.locale(context), // Add the locale
       builder: DevicePreview.appBuilder, // Add the builder
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const onbordingScreen(),
+      home:  OnboardingScreen(),
     );
   }
 }
