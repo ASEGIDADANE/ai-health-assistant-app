@@ -19,7 +19,7 @@ export const getNearbyPlaces = async (
   type: string = 'hospital'
 ): Promise<PlaceResult[]> => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  const radius = 5000; // in meters
+  const radius = 5000; 
 
   if (!apiKey) {
     throw new Error('Google Maps API key is missing in environment variables');
