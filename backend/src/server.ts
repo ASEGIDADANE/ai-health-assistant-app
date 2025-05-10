@@ -4,7 +4,7 @@ dotenv.config();
 import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import healthProfileRoutes from './routes/healthProfileRoutes';
-import nearbyRoutes from './routes/nearbyRoutes';
+import aiRoutes from './routes/aiRoutes';
 
 
 
@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth',authRoutes );
 app.use('/api/health',healthProfileRoutes );
-app.use('/api',nearbyRoutes );
+app.use('/api/ai',aiRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
