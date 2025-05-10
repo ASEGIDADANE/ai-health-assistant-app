@@ -82,7 +82,7 @@ npm install
 npm run dev
 ```
 
-2. The server will start at `http://localhost:3000`
+2. The server will start at `http://localhost:5000`
 
 ## Testing
 
