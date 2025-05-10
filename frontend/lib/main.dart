@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart'; // Import for kReleaseMode
 import 'package:flutter/material.dart';
 import 'package:frontend/views/homeScreen.dart';
 
-import 'package:device_preview/device_preview.dart'; // Import device_preview
+import 'package:device_preview/device_preview.dart';
+import 'package:frontend/views/onbordingScreen.dart'; // Import device_preview
 
 void main() {
   runApp(
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home:  homeScreen(),
+      home:  OnboardingScreen(),
     );
   }
 }

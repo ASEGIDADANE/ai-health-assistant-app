@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/services/api_service.dart';
 
 class ChatViewModel extends ChangeNotifier {
+  final ApiService _apiService = ApiService();
+  bool _isLoading = false;
+  String? _error;
+  
   final List<_ChatMessage> _messages = [
     _ChatMessage(
       sender: 'AI',
@@ -11,22 +16,44 @@ class ChatViewModel extends ChangeNotifier {
   ];
 
   List<_ChatMessage> get messages => _messages;
+  bool get isLoading => _isLoading;
+  String? get error => _error;
 
-  void sendMessage(String text) {
+  Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
+    
+    _error = null;
+    _isLoading = true;
+    notifyListeners();
+    
+    // Add user message
     _messages.add(_ChatMessage(sender: 'You', message: text, time: 'Now', isAI: false));
     notifyListeners();
 
-    // Simulate API response (replace with actual API call)
-    Future.delayed(const Duration(milliseconds: 800), () {
+    try {
+      // Get response from API
+      final response = await _apiService.sendMessage(text);
+      
+      // Add AI response
       _messages.add(_ChatMessage(
         sender: 'AI',
-        message: "Regular exercise offers a wide array of benefits impacting nearly every system in the body. These benefits can be broadly categorized as:\n\n**Physical Benefits:\n\n* **Improved Cardiovascular Health: Reduces risk of heart disease, stroke, and high blood pressure. Strengthens the heart muscle, improves circulation, and lowers resting heart rate.\n* Weight Management: Burns calories, helps build muscle mass (which boosts metabolism), and contributes to weight loss or maintenance.\n* **Stronger Bones and Muscles",
+        message: response,
         time: 'Now',
         isAI: true,
       ));
+    } catch (e) {
+      _error = e.toString();
+      // Add error message
+      _messages.add(_ChatMessage(
+        sender: 'AI',
+        message: e.toString().replaceAll('Exception: ', ''),
+        time: 'Now',
+        isAI: true,
+      ));
+    } finally {
+      _isLoading = false;
       notifyListeners();
-    });
+    }
   }
 }
 

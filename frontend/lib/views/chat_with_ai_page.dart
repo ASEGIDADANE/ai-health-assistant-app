@@ -258,8 +258,19 @@ class _ChatWithAIContentState extends State<_ChatWithAIContent> {
               builder: (context, viewModel, child) {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  itemCount: viewModel.messages.length,
+                  itemCount: viewModel.messages.length + (viewModel.isLoading ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (index == viewModel.messages.length) {
+                      // Show loading indicator
+                      return const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    
                     final msg = viewModel.messages[index];
                     return Align(
                       alignment: msg.isAI ? Alignment.centerLeft : Alignment.centerRight,
