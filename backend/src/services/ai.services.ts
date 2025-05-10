@@ -3,7 +3,8 @@ import {
     HarmCategory,
     HarmBlockThreshold,
     Content
-} from "@google/generative-ai";
+} 
+from '@google/generative-ai';
 import { Chat } from '../models/Chat';
 import dotenv from "dotenv";
 

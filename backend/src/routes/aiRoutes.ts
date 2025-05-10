@@ -3,7 +3,7 @@ import {
      generateResponse, 
      symptomCheck,
     generalChat
-    } from '../controllers/chat.controller';
+    } from '../controllers/aiController';
 import { authenticateUser } from "../middleWares/authMiddleWare";
 
 
