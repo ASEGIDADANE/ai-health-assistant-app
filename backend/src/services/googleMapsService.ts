@@ -27,6 +27,6 @@ export const getNearbyPlaces = async (
 
   const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=${type}&key=${apiKey}`;
 
-  const response = await axios.get(url);
-  return response.data.results as PlaceResult[];
+  const response = await axios.get<{ results: PlaceResult[] }>(url);
+  return response.data.results;
 };
