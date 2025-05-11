@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart'; // Import for kReleaseMode
 import 'package:flutter/material.dart';
-import 'package:frontend/views/homeScreen.dart';
-
 import 'package:device_preview/device_preview.dart';
-import 'package:frontend/views/onbordingScreen.dart'; // Import device_preview
+import 'package:frontend/views/onbordingScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/view_models/auth_viewModel.dart';
+
+// Import device_preview
 
 void main() {
   runApp(
@@ -20,16 +22,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      useInheritedMediaQuery: true, // Important for DevicePreview
-      locale: DevicePreview.locale(context), // Add the locale
-      builder: DevicePreview.appBuilder, // Add the builder
-      title: 'ai-health-app',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        useInheritedMediaQuery: true, // Important for DevicePreview
+        locale: DevicePreview.locale(context), // Add the locale
+        builder: DevicePreview.appBuilder, // Add the builder
+        title: 'ai-health-app',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: const OnboardingScreen(),
       ),
-      home:  OnboardingScreen(),
     );
   }
 }

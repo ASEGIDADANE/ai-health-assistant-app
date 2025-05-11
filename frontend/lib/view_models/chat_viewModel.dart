@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/api_service.dart';
+import 'package:frontend/services/chatservices.dart';
 
 class ChatViewModel extends ChangeNotifier {
   final ApiService _apiService = ApiService();
