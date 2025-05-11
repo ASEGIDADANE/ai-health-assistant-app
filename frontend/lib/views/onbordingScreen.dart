@@ -12,7 +12,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
-  final Color _primaryColor = Colors.blue; // Single stable blue color
+  final Color _primaryColor = Colors.blue;
 
   final List<OnboardingPage> _onboardingPages = [
     OnboardingPage(
@@ -95,7 +95,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 width: 120,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: _primaryColor, // Stable blue color
+                  color: _primaryColor,
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: TextButton(
@@ -140,7 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             shape: BoxShape.circle,
             color:
                 _currentPage == i
-                    ? _primaryColor // Stable blue color for active indicator
+                    ? _primaryColor
                     : Colors.grey.withOpacity(0.4),
           ),
         ),
@@ -179,22 +179,20 @@ class OnboardingPageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Icon with colored background
           Container(
             width: 150,
             height: 150,
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.2), // Light blue background
+              color: primaryColor.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
             child: Icon(
               page.icon,
               size: 60,
-              color: primaryColor, // Blue icon
+              color: primaryColor,
             ),
           ),
           const SizedBox(height: 40),
-          // Title
           Text(
             page.title,
             style: const TextStyle(
@@ -206,7 +204,6 @@ class OnboardingPageWidget extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
-          // Description
           Text(
             page.description,
             style: const TextStyle(
