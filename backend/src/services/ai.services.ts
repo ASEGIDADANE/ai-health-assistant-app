@@ -151,19 +151,45 @@ const model = genAI.getGenerativeModel({
 
         return await response.text();
     }
-
-    export const symptomCheck = async (symptoms: string): Promise<string> => {
-        const prompt = `IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns. Based on the following symptoms: ${symptoms}, please give me a list of possible conditions. Always start your response with a clear disclaimer that this information is not a substitute for professional medical advice.`;
+    export const symptomCheck = async (symptoms: string, userId: string): Promise<string> => {
+        const userInfo = await getUserInfo(userId);
+    
+        let userProfileText = "";
+    
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `Patient Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `Patient profile is incomplete.\n`;
+        }
+    
+        const prompt = `
+    IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns.
+    
+    ${userProfileText}
+    
+    Based on the following symptoms: ${symptoms}, provide a list of *possible* conditions. Begin with a clear disclaimer that this is not a substitute for professional medical advice.
+    `;
+    
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
                 maxOutputTokens: 100,
             }
         });
+    
         const result = await chatSession.sendMessage(prompt);
         const response = result.response;
-
-
+    
         if (!response || !response.candidates || response.candidates.length === 0) {
             let message = "No response from model.";
             if (response?.promptFeedback?.blockReason) {
@@ -174,6 +200,7 @@ const model = genAI.getGenerativeModel({
             }
             throw new Error(message);
         }
-
+    
         return await response.text();
-    }
+    };
+    
