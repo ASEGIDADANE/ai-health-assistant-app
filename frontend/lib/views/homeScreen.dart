@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/chat_with_ai_page.dart';
 import 'package:frontend/views/first_aid_guidScreen.dart';
 
 class homeScreen extends StatelessWidget {
@@ -50,9 +51,7 @@ class homeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (_) => const PlaceholderPage(
-                                  title: 'Chat with AI',
-                                ),
+                                (_) => ChatWithAIPage()
                           ),
                         ),
                   ),
