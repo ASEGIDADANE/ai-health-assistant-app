@@ -6,6 +6,7 @@ import {
 } from "@google/generative-ai";
 import { Chat } from '../models/Chat';
 import dotenv from "dotenv";
+import User from "../models/userModel";
 
 dotenv.config();
 
@@ -42,6 +43,8 @@ const model = genAI.getGenerativeModel({
 class AiService {
     async generateResponse(prompt: string, userId: string) {
         let chat = await Chat.findOne({ userId });
+        let user = await User.findOne({ id: userId });
+        
         if (!chat) {
             chat = new Chat({ userId, messages: [] });
         }

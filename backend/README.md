@@ -115,6 +115,9 @@ The API uses a centralized error handling system with appropriate HTTP status co
 
 This project is licensed under the ISC License.
 
+<<<<<<< HEAD
 ## Support
 
 For support, email [your-email] or open an issue in the repository. 
+=======
+>>>>>>> 01fe6f9244707e9c4fd0dc8ebbbc74e46df05cd3

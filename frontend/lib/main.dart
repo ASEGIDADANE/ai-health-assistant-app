@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart'; // Import for kReleaseMode
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:frontend/view_models/healthProfile_viewModel.dart';
 import 'package:frontend/view_models/symptom_view_model.dart';
 import 'package:frontend/views/onbordingScreen.dart';
+// import 'package:frontend/views/onbordingScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/view_models/auth_viewModel.dart';
@@ -12,8 +14,8 @@ import 'package:frontend/view_models/auth_viewModel.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: !kReleaseMode, // Enable it only in debug/profile mode
-      builder: (context) => const MyApp(), // Wrap your app
+      enabled: !kReleaseMode,
+      builder: (context) => const MyApp(),
     ),
   );
 }
@@ -21,13 +23,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => SymptomViewModel()),
+        ChangeNotifierProvider(create: (_) => HealthProfileViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,7 +40,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const SymptomCheckerPage(),
+        home: const OnboardingScreen(),
       ),
     );
   }
