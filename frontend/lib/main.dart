@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart'; // Import for kReleaseMode
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:frontend/view_models/symptom_view_model.dart';
 import 'package:frontend/views/onbordingScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => SymptomViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
