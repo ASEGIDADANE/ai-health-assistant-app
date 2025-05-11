@@ -5,7 +5,7 @@ import 'package:frontend/models/health_profile_model.dart';
 import 'package:intl/intl.dart';
 // Adjust the path to your user_model.dart if it's different
 // Assuming it's in lib/models/user_model.dart
-import '../models/user_model.dart'; // Or 'package:user/models/user_model.dart'
+// import '../models/user_model.dart'; // Or 'package:user/models/user_model.dart'
 
 class HealthProfileViewModel extends ChangeNotifier {
   HealthProfileModel _healthProfileModel = HealthProfileModel();
