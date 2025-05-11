@@ -18,6 +18,12 @@ if (!apiKey) {
 const genAI = new GoogleGenerativeAI(apiKey);
 const modelId = "gemini-1.5-flash";
 
+export interface IAiService {
+    generateResponse(prompt: string, userId: string): Promise<string>;
+    generalChat(prompt: string): Promise<string>;
+    symptomCheck(symptoms: string): Promise<string>;
+}
+
 const model = genAI.getGenerativeModel({
     model: modelId,
     safetySettings: [
@@ -40,8 +46,9 @@ const model = genAI.getGenerativeModel({
     ],
 });
 
-class AiService {
-    async generateResponse(prompt: string, userId: string) {
+
+
+    export const generateResponse = async (prompt: string, userId: string): Promise<string> =>{
         let chat = await Chat.findOne({ userId });
         if (!chat) {
             chat = new Chat({ userId, messages: [] });
@@ -92,12 +99,8 @@ class AiService {
         return responseText;
     }
 
-    async getChatHistory(userId: string) {
-        const chat = await Chat.findOne({ userId });
-        return chat?.messages || [];
-    }
+    export const generalChat = async (prompt: string): Promise<string> =>{
 
-    async generalChat(prompt: string) {
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
@@ -118,8 +121,8 @@ class AiService {
         return await response.text();
     }
 
-    async symptomCheck(symptoms: string) {
-        const prompt = `Based on the following symptoms: ${symptoms} please give me a list of possible conditions.`;
+    export const symptomCheck = async (symptoms: string): Promise<string> => {
+        const prompt = `IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns. Based on the following symptoms: ${symptoms}, please give me a list of possible conditions. Always start your response with a clear disclaimer that this information is not a substitute for professional medical advice.`;
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
@@ -143,6 +146,3 @@ class AiService {
 
         return await response.text();
     }
-}
-
-export const aiService = new AiService();
