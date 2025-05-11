@@ -4,8 +4,7 @@ import 'package:http/http.dart' as http;
 class ApiService {
   // Update this to match your backend URL
   static const String baseUrl = 'http://localhost:5000/api'; // For Android Emulator
-  // static const String baseUrl = 'http://localhost:3000/api'; // For web
-  // static const String baseUrl = 'http://127.0.0.1:3000/api'; // For iOS Simulator
+   // For iOS Simulator
 
   Future<String> sendMessage(String message) async {
     try {
