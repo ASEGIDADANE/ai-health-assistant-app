@@ -82,7 +82,7 @@ npm install
 npm run dev
 ```
 
-2. The server will start at `http://localhost:3000`
+2. The server will start at `http://localhost:5000`
 
 ## Testing
 
@@ -115,6 +115,3 @@ The API uses a centralized error handling system with appropriate HTTP status co
 
 This project is licensed under the ISC License.
 
-## Support
-
-For support, email [your-email] or open an issue in the repository. 
