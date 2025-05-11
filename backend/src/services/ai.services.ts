@@ -7,6 +7,9 @@ import {
 from '@google/generative-ai';
 import { Chat } from '../models/Chat';
 import dotenv from "dotenv";
+import { getUserInfo } from "./user.services";
+import HealthProfile from "../models/healthprofileModel";
+
 
 dotenv.config();
 
@@ -53,14 +56,41 @@ const model = genAI.getGenerativeModel({
         if (!chat) {
             chat = new Chat({ userId, messages: [] });
         }
+        const userInfo = await getUserInfo(userId);
+        //const userInfo =  await HealthProfile.findOne({ user: userId }).lean();
 
-        const historyForChat: Content[] = chat.messages.map(msg => ({
-            role: msg.role,
-            parts: [{ text: msg.content }]
-        }));
+        
+        let userProfileText = "";
+
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `\nHealth Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `\nUser has not completed their health profile yet.\n`;
+        }
+
+        prompt += userProfileText
+
+        const historyForChat: Content[] = [
+                ...chat.messages.map(msg => ({
+                    role: msg.role,
+                    parts: [{ text: msg.content }]
+                }))
+            ];
+
 
         const chatSession = model.startChat({
             history: historyForChat,
+
             generationConfig: {
                 maxOutputTokens: 100,
             },
@@ -98,6 +128,7 @@ const model = genAI.getGenerativeModel({
         await chat.save();
         return responseText;
     }
+
 
     export const generalChat = async (prompt: string): Promise<string> =>{
 

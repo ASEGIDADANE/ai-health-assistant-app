@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 
-import { aiService } from '../services/aiService';
 
 export const generateResponse = async (
     req: Request,
