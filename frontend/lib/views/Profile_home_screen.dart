@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/navigation/app_navigation.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
+import 'package:frontend/views/Profile_setup_flow/profile_setup_container_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProfileHomeScreen extends StatelessWidget {
@@ -43,7 +45,9 @@ class ProfileHomeScreen extends StatelessWidget {
                 onTap: () {
                   Provider.of<HealthProfileViewModel>(context, listen: false)
                       .initiateProfileSetup();
-                  Navigator.pushNamed(context, '/profile_setup');
+
+                AppNavigator.push(context, const ProfileSetupContainerScreen());
+                  
                 },
               ),
               const SizedBox(height: 20),

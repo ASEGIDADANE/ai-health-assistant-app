@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:frontend/view_models/chat_viewModel.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
 import 'package:frontend/view_models/symptom_view_model.dart';
+import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:frontend/views/onbordingScreen.dart';
 // import 'package:frontend/views/onbordingScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => SymptomViewModel()),
         ChangeNotifierProvider(create: (_) => HealthProfileViewModel()),
+        ChangeNotifierProvider(create: (_) => ChatViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
