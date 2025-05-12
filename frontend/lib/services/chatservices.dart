@@ -2,22 +2,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Update this to match your backend URL
-  static const String baseUrl = 'http://localhost:5000/api'; // For Android Emulator
-   // For iOS Simulator
+ 
+  static const String baseUrl = 'http://localhost:5000/api'; 
+ 
 
   Future<String> sendMessage(String message) async {
     try {
-      print('Attempting to connect to: $baseUrl/ai/personalized/chat');
+      
       const userId = '681bae948a05deb8204f3ae6';
       
       
-      final testResponse = await http.get(Uri.parse('$baseUrl/test'));
-      print('Test connection response: ${testResponse.statusCode}');
+      // final testResponse = await http.get(Uri.parse('$baseUrl/test'));
+      // print('Test connection response: ${testResponse.statusCode}');
       
-      if (testResponse.statusCode != 200) {
-        throw Exception('Backend server is not responding properly. Status: ${testResponse.statusCode}');
-      }
+      // if (testResponse.statusCode != 200) {
+      //   throw Exception('Backend server is not responding properly. Status: ${testResponse.statusCode}');
+      // }
 
       final response = await http.post(
         Uri.parse('$baseUrl/ai/personalized/chat'),
