@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:frontend/view_models/chat_viewModel.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
 import 'package:frontend/view_models/symptom_view_model.dart';
+import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:frontend/views/onbordingScreen.dart';
 // import 'package:frontend/views/onbordingScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
