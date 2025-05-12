@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/common/navigation/app_navigation.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
 import 'package:frontend/views/Profile_setup_flow/profile_setup_container_screen.dart';
+import 'package:frontend/views/general_chat_withai.dart';
 import 'package:provider/provider.dart';
 
 class ProfileHomeScreen extends StatelessWidget {
@@ -19,35 +20,42 @@ class ProfileHomeScreen extends StatelessWidget {
               const Text(
                 'Home',
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white70),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white70,
+                ),
               ),
               const SizedBox(height: 20),
               const Text(
                 'Choose Your Chat Type',
                 style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 30),
               _buildChatTypeCard(
                 context,
                 icon: Icons.person_outline_rounded,
                 title: 'Personal Health Chat',
-                subtitle: 'Get personalized health advice based on your profile',
+                subtitle:
+                    'Get personalized health advice based on your profile',
                 features: [
                   'Personalized responses based on your health profile',
                   'More accurate health recommendations',
                   'Track your health conversations',
                 ],
                 onTap: () {
-                  Provider.of<HealthProfileViewModel>(context, listen: false)
-                      .initiateProfileSetup();
+                  Provider.of<HealthProfileViewModel>(
+                    context,
+                    listen: false,
+                  ).initiateProfileSetup();
 
-                AppNavigator.push(context, const ProfileSetupContainerScreen());
-                  
+                  AppNavigator.push(
+                    context,
+                    const ProfileSetupContainerScreen(),
+                  );
                 },
               ),
               const SizedBox(height: 20),
@@ -62,10 +70,12 @@ class ProfileHomeScreen extends StatelessWidget {
                   'General health guidance',
                 ],
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('General Chat Tapped (Not Implemented)')),
-                  );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   const SnackBar(
+                  //       content: Text('General Chat Tapped (Not Implemented)')),
+                  // );
+                  AppNavigator.push(context, const GeneralChatWithAi());
+                  // AppNavigator.push(context, );
                 },
               ),
             ],
@@ -113,15 +123,18 @@ class ProfileHomeScreen extends StatelessWidget {
                         Text(
                           title,
                           style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1C2A3A)), // Dark blue text
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1C2A3A),
+                          ), // Dark blue text
                         ),
                         const SizedBox(height: 4),
                         Text(
                           subtitle,
                           style: TextStyle(
-                              fontSize: 14, color: Colors.grey.shade600),
+                            fontSize: 14,
+                            color: Colors.grey.shade600,
+                          ),
                         ),
                       ],
                     ),
@@ -129,23 +142,27 @@ class ProfileHomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              ...features.map((feature) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(Icons.check, color: Colors.green.shade600, size: 20),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            feature,
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey.shade700),
+              ...features.map(
+                (feature) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.check, color: Colors.green.shade600, size: 20),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          feature,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade700,
                           ),
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

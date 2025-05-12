@@ -19,10 +19,14 @@ class AuthService {
           'password': password,
         }),
       );
+      print('Response : ${response.body}');
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         await _saveToken(data['token']);
+        if(data['user']['id'] != null) {
+          await _saveUserId(data['user']['id']);
+        }
         return data;
       } else {
         throw Exception(json.decode(response.body)['message'] ?? 'Login failed');
@@ -46,6 +50,9 @@ class AuthService {
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
         await _saveToken(data['token']);
+        if(data['user']['id'] != null) {
+          await _saveUserId(data['user']['id']);
+        }
         return data;
       } else {
         throw Exception(json.decode(response.body)['message'] ?? 'Signup failed');
@@ -69,4 +76,18 @@ class AuthService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
   }
+   Future<String?> getUserId() async { // New method to get userId
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userId');
+  }
+
+  Future<void> _saveUserId(String userId) async { // New method to save userId
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userId);
+  }
+  Future<bool> isAuthenticated() async {
+    final token = await getToken();
+    return token != null;
+  }
+
 }

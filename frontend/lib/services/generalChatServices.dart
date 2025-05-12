@@ -11,14 +11,11 @@ class ApiService {
   Future<String> sendMessage(String message) async {
     try {
       final token = await _authService.getToken();
-      final userId = await _authService.getUserId();
+      
       if (token == null) {
         throw Exception('User not authenticated. Cannot send message.');
       }
 
-      if (userId == null) {
-        throw Exception('User ID not found. Cannot send message.');
-      }
       
       
       // final testResponse = await http.get(Uri.parse('$baseUrl/test'));
@@ -29,7 +26,7 @@ class ApiService {
       // }
 
       final response = await http.post(
-        Uri.parse('$baseUrl/ai/personalized/chat'),
+        Uri.parse('$baseUrl/ai/general/chat'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -40,7 +37,7 @@ class ApiService {
         },
         body: jsonEncode({
           'prompt': message,
-          'userId': userId,
+          
         }),
       );
 
