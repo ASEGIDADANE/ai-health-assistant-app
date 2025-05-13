@@ -1,25 +1,47 @@
 import 'package:flutter/material.dart';
-class Splash extends StatelessWidget {
-  const Splash({super.key});
+import 'package:frontend/views/onbordingScreen.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Navigate after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 2, 15, 39),
-     
-      
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage('assets/images/splash.jpg' ,), fit: BoxFit.cover),
-            SizedBox(height: 20),
-            Text(
-              'Your Personal Health Companion',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300 , color: Colors.white),
+      backgroundColor: const Color.fromARGB(255, 9, 19, 35),
+      body: Stack(
+        children: [
+          // Background Image with opacity
+          Opacity(
+            opacity: 0.3,
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/splash.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+          // Content
+          
+        ],
       ),
     );
   }

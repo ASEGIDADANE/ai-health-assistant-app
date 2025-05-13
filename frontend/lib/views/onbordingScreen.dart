@@ -18,20 +18,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingPage(
       title: "AI-Powered\nHealth Support",
       description:
-          "Get instant answers to your\nhealth questions with our\nadvanced Ai Assistat",
-      icon: Icons.medical_information,
+          "Get instant answers to your\nhealth questions with our\nadvanced AI Assistant",
+      imagePath: 'assets/images/support.png',
     ),
     OnboardingPage(
       title: "Quick Symptom Check",
       description:
           "Understand your symptoms and get\nrecommended actions with\nour smart symptom checker",
-      icon: Icons.medical_services,
+      imagePath: 'assets/images/symptoms.png',
     ),
     OnboardingPage(
       title: "Find Care Nearby",
       description:
           "Locate hospitals, clinics, and\npharmacies in your area when you\nneed them most",
-      icon: Icons.local_hospital,
+      imagePath: 'assets/images/nearby.png',
     ),
   ];
 
@@ -78,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             // Page indicator (bottom center)
             Positioned(
-              bottom: 100,
+              bottom: 50,
               left: 0,
               right: 0,
               child: Row(
@@ -129,36 +129,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   List<Widget> _buildPageIndicator() {
-    List<Widget> indicators = [];
-    for (int i = 0; i < _onboardingPages.length; i++) {
-      indicators.add(
-        Container(
-          width: 10.0,
-          height: 10.0,
-          margin: const EdgeInsets.symmetric(horizontal: 4.0),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color:
-                _currentPage == i
-                    ? _primaryColor
-                    : Colors.grey.withOpacity(0.4),
-          ),
+    return List.generate(
+      _onboardingPages.length,
+      (index) => Container(
+        width: 7.0,
+        height: 7.0,
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color:
+              _currentPage == index
+                  ? _primaryColor
+                  : Colors.grey.withOpacity(0.4),
         ),
-      );
-    }
-    return indicators;
+      ),
+    );
   }
 }
 
 class OnboardingPage {
   final String title;
   final String description;
-  final IconData icon;
+  final String imagePath;
 
   OnboardingPage({
     required this.title,
     required this.description,
-    required this.icon,
+    required this.imagePath,
   });
 }
 
@@ -179,18 +176,9 @@ class OnboardingPageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 150,
-            height: 150,
-            decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              page.icon,
-              size: 60,
-              color: primaryColor,
-            ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Image.asset(page.imagePath, fit: BoxFit.contain),
           ),
           const SizedBox(height: 40),
           Text(

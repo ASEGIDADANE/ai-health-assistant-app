@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart'; // Import for kReleaseMode
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:frontend/views/authscreen.dart';
 import 'package:frontend/views/onbordingScreen.dart';
+import 'package:frontend/views/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/view_models/auth_viewModel.dart';
 
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const OnboardingScreen(),
+        home: const HealthAssistWelcomeScreen(),
       ),
     );
   }
