@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HealthProfileViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => GeneralChatViewModel()),
-
+        
 
       ],
       child: MaterialApp(
