@@ -7,6 +7,9 @@ import {
 from '@google/generative-ai';
 import { Chat } from '../models/Chat';
 import dotenv from "dotenv";
+import { getUserInfo } from "./user.services";
+import HealthProfile from "../models/healthprofileModel";
+
 
 dotenv.config();
 
@@ -53,20 +56,54 @@ const model = genAI.getGenerativeModel({
         if (!chat) {
             chat = new Chat({ userId, messages: [] });
         }
+        const userInfo = await getUserInfo(userId);
+        console.log("User Info:", userInfo);
+        //const userInfo =  await HealthProfile.findOne({ user: userId }).lean();
 
-        const historyForChat: Content[] = chat.messages.map(msg => ({
-            role: msg.role,
-            parts: [{ text: msg.content }]
-        }));
+        
+        let userProfileText = "";
+
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `\nHealth Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `\nUser has not completed their health profile yet.\n`;
+        }
+        
+        prompt += userProfileText
+        const promptText = `
+        when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
+        just answer the question. i need only the answer. when you answer user questions, relate the answer with the user profile be 
+        specific to th user profile and give short explanations.
+
+        ${prompt}`;
+
+        const historyForChat: Content[] = [
+                ...chat.messages.map(msg => ({
+                    role: msg.role,
+                    parts: [{ text: msg.content }]
+                }))
+            ];
+
 
         const chatSession = model.startChat({
             history: historyForChat,
+
             generationConfig: {
                 maxOutputTokens: 100,
             },
         });
 
-        const result = await chatSession.sendMessage(prompt);
+        const result = await chatSession.sendMessage(promptText);
         const response = result.response;
 
         if (!response || !response.candidates || response.candidates.length === 0) {
@@ -99,6 +136,7 @@ const model = genAI.getGenerativeModel({
         return responseText;
     }
 
+
     export const generalChat = async (prompt: string): Promise<string> =>{
 
         const chatSession = model.startChat({
@@ -107,7 +145,12 @@ const model = genAI.getGenerativeModel({
                 maxOutputTokens: 100,
             }
         });
-        const result = await chatSession.sendMessage(prompt);
+        const promptText =  `
+        when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
+        and try to answer the question in simple way and make it short and clear
+        ${prompt}`;
+        
+        const result = await chatSession.sendMessage(promptText);
         const response = result.response;
 
         if (!response || !response.candidates || response.candidates.length === 0) {
@@ -120,19 +163,46 @@ const model = genAI.getGenerativeModel({
 
         return await response.text();
     }
-
-    export const symptomCheck = async (symptoms: string): Promise<string> => {
-        const prompt = `IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns. Based on the following symptoms: ${symptoms}, please give me a list of possible conditions. Always start your response with a clear disclaimer that this information is not a substitute for professional medical advice.`;
+    export const symptomCheck = async (symptoms: string, userId: string): Promise<string> => {
+        const userInfo = await getUserInfo(userId);
+    
+        let userProfileText = "";
+    
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `Patient Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `Patient profile is incomplete.\n`;
+        }
+    
+        const prompt = `
+    You are a medical assistant. Your task is to assist in identifying possible conditions based on symptoms provided by the user.
+    what you are doing know you going to give a list of possible five conditions based on the symptoms provided by the user.
+    try to relate the conditons with the user profile.    
+    ${userProfileText}
+    
+    Based on the following symptoms: ${symptoms}, provide a list of *possible* conditions. Begin with a clear disclaimer that this is not a substitute for professional medical advice.
+    `;
+    
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
                 maxOutputTokens: 100,
             }
         });
+    
         const result = await chatSession.sendMessage(prompt);
         const response = result.response;
-
-
+    
         if (!response || !response.candidates || response.candidates.length === 0) {
             let message = "No response from model.";
             if (response?.promptFeedback?.blockReason) {
@@ -143,6 +213,7 @@ const model = genAI.getGenerativeModel({
             }
             throw new Error(message);
         }
-
+    
         return await response.text();
-    }
+    };
+    
