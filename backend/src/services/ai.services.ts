@@ -57,6 +57,7 @@ const model = genAI.getGenerativeModel({
             chat = new Chat({ userId, messages: [] });
         }
         const userInfo = await getUserInfo(userId);
+        console.log("User Info:", userInfo);
         //const userInfo =  await HealthProfile.findOne({ user: userId }).lean();
 
         
@@ -77,8 +78,14 @@ const model = genAI.getGenerativeModel({
         } else {
             userProfileText += `\nUser has not completed their health profile yet.\n`;
         }
-
+        
         prompt += userProfileText
+        const promptText = `
+        when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
+        just answer the question. i need only the answer. when you answer user questions, relate the answer with the user profile be 
+        specific to th user profile and give short explanations.
+
+        ${prompt}`;
 
         const historyForChat: Content[] = [
                 ...chat.messages.map(msg => ({
@@ -96,7 +103,7 @@ const model = genAI.getGenerativeModel({
             },
         });
 
-        const result = await chatSession.sendMessage(prompt);
+        const result = await chatSession.sendMessage(promptText);
         const response = result.response;
 
         if (!response || !response.candidates || response.candidates.length === 0) {
@@ -138,7 +145,12 @@ const model = genAI.getGenerativeModel({
                 maxOutputTokens: 100,
             }
         });
-        const result = await chatSession.sendMessage(prompt);
+        const promptText =  `
+        when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
+        and try to answer the question in simple way and make it short and clear
+        ${prompt}`;
+        
+        const result = await chatSession.sendMessage(promptText);
         const response = result.response;
 
         if (!response || !response.candidates || response.candidates.length === 0) {
@@ -173,8 +185,9 @@ const model = genAI.getGenerativeModel({
         }
     
         const prompt = `
-    IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns.
-    
+    You are a medical assistant. Your task is to assist in identifying possible conditions based on symptoms provided by the user.
+    what you are doing know you going to give a list of possible five conditions based on the symptoms provided by the user.
+    try to relate the conditons with the user profile.    
     ${userProfileText}
     
     Based on the following symptoms: ${symptoms}, provide a list of *possible* conditions. Begin with a clear disclaimer that this is not a substitute for professional medical advice.
