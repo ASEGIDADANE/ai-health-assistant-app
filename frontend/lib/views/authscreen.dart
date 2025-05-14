@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/views/loginscreen.dart';
 import 'package:frontend/views/signupScreen.dart';
 
-class HealthAssistWelcomeScreen extends StatelessWidget {
-  const HealthAssistWelcomeScreen({super.key});
+class Authscreen extends StatelessWidget {
+  const Authscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class HealthAssistWelcomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Image section (dummy image for now)
+              
                 Image.asset(
-                  'assets/images/welcome.png', // Replace with your image later
+                  'assets/images/welcome.png', 
                   height: 200,
                 ),
                 const SizedBox(height: 40),
@@ -47,7 +47,7 @@ class HealthAssistWelcomeScreen extends StatelessWidget {
 
                 // Login Button
                 SizedBox(
-                  width: double.infinity,
+                  width: 180,
                   child: ElevatedButton(
                     onPressed: () {
                      
@@ -58,7 +58,7 @@ class HealthAssistWelcomeScreen extends StatelessWidget {
                       
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 14 ,horizontal: 10),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -71,7 +71,7 @@ class HealthAssistWelcomeScreen extends StatelessWidget {
 
     
                 SizedBox(
-                  width: double.infinity,
+                  width: 180,
                   child: OutlinedButton(
                     onPressed: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
@@ -81,7 +81,7 @@ class HealthAssistWelcomeScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(vertical: 10 ,horizontal: 10),
                       side: const BorderSide(color: Colors.blue),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/navigation/app_navigation.dart';
+import 'package:frontend/services/authService.dart';
+import 'package:frontend/views/authscreen.dart';
 import 'package:frontend/views/loginscreen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -36,7 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   ];
 
   void _navigateToLogin() {
-    AppNavigator.pushReplacement(context, const LoginScreen());
+    AppNavigator.pushReplacement(context, const Authscreen());
   }
 
   @override
@@ -44,82 +46,85 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            PageView.builder(
-              controller: _pageController,
-              itemCount: _onboardingPages.length,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              itemBuilder: (context, index) {
-                return OnboardingPageWidget(
-                  page: _onboardingPages[index],
-                  primaryColor: _primaryColor,
-                );
-              },
-            ),
-
-            // Skip button (top right)
+            // Skip button
             if (_currentPage != _onboardingPages.length - 1)
-              Positioned(
-                top: 20,
-                right: 20,
-                child: TextButton(
-                  onPressed: _navigateToLogin,
-                  child: const Text(
-                    "Skip",
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                ),
-              ),
-
-            // Page indicator (bottom center)
-            Positioned(
-              bottom: 50,
-              left: 0,
-              right: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildPageIndicator(),
-              ),
-            ),
-
-            // Next/Get Started button (bottom right)
-            Positioned(
-              bottom: 40,
-              right: 30,
-              child: Container(
-                width: 120,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: _primaryColor,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    if (_currentPage == _onboardingPages.length - 1) {
-                      _navigateToLogin();
-                    } else {
-                      _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
-                      );
-                    }
-                  },
-                  child: Text(
-                    _currentPage == _onboardingPages.length - 1
-                        ? "Get Started"
-                        : "Next",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16.0, right: 20.0),
+                  child: TextButton(
+                    onPressed: _navigateToLogin,
+                    child: const Text(
+                      "Skip",
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                   ),
                 ),
+              ),
+
+            // PageView content
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _onboardingPages.length,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return OnboardingPageWidget(
+                    page: _onboardingPages[index],
+                    primaryColor: _primaryColor,
+                  );
+                },
+              ),
+            ),
+
+            // Page indicator + button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Indicator
+                  Row(children: _buildPageIndicator()),
+                
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_currentPage == _onboardingPages.length - 1) {
+                        _navigateToLogin();
+                      } else {
+                        _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: Text(
+                      _currentPage == _onboardingPages.length - 1
+                          ? "Get Started"
+                          : "Next",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -132,9 +137,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return List.generate(
       _onboardingPages.length,
       (index) => Container(
-        width: 7.0,
-        height: 7.0,
-        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        width: 8,
+        height: 8,
+        margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color:
@@ -176,10 +181,7 @@ class OnboardingPageWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Image.asset(page.imagePath, fit: BoxFit.contain),
-          ),
+          Image.asset(page.imagePath, fit: BoxFit.contain, height: 250),
           const SizedBox(height: 40),
           Text(
             page.title,

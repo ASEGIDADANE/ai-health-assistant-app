@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/view_models/chat_viewModel.dart';
+// import 'package:frontend/view_models/chat_viewModel.dart';
+import 'package:frontend/view_models/general_chat_viewModel.dart';
 import 'package:provider/provider.dart';
 
 
-class ChatWithAIPage extends StatelessWidget {
-  const ChatWithAIPage({Key? key}) : super(key: key);
+class GeneralChatWithAi extends StatelessWidget {
+  const GeneralChatWithAi({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _ChatWithAIContentState extends State<_ChatWithAIContent> {
   void _sendMessage() {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
-    context.read<ChatViewModel>().sendMessage(text);
+    context.read<GeneralChatViewModel>().sendMessage(text);
     _controller.clear();
   }
 
@@ -71,7 +72,7 @@ class _ChatWithAIContentState extends State<_ChatWithAIContent> {
       body: Column(
         children: [
           Expanded(
-            child: Consumer<ChatViewModel>(
+            child: Consumer<GeneralChatViewModel>(
               builder: (context, viewModel, child) {
                 return ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

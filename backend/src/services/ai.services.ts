@@ -7,6 +7,9 @@ import {
 from '@google/generative-ai';
 import { Chat } from '../models/Chat';
 import dotenv from "dotenv";
+import { getUserInfo } from "./user.services";
+import HealthProfile from "../models/healthprofileModel";
+
 
 dotenv.config();
 
@@ -17,6 +20,12 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey);
 const modelId = "gemini-1.5-flash";
+
+export interface IAiService {
+    generateResponse(prompt: string, userId: string): Promise<string>;
+    generalChat(prompt: string): Promise<string>;
+    symptomCheck(symptoms: string): Promise<string>;
+}
 
 const model = genAI.getGenerativeModel({
     model: modelId,
@@ -40,20 +49,48 @@ const model = genAI.getGenerativeModel({
     ],
 });
 
-class AiService {
-    async generateResponse(prompt: string, userId: string) {
+
+
+    export const generateResponse = async (prompt: string, userId: string): Promise<string> =>{
         let chat = await Chat.findOne({ userId });
         if (!chat) {
             chat = new Chat({ userId, messages: [] });
         }
+        const userInfo = await getUserInfo(userId);
+        //const userInfo =  await HealthProfile.findOne({ user: userId }).lean();
 
-        const historyForChat: Content[] = chat.messages.map(msg => ({
-            role: msg.role,
-            parts: [{ text: msg.content }]
-        }));
+        
+        let userProfileText = "";
+
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `\nHealth Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `\nUser has not completed their health profile yet.\n`;
+        }
+
+        prompt += userProfileText
+
+        const historyForChat: Content[] = [
+                ...chat.messages.map(msg => ({
+                    role: msg.role,
+                    parts: [{ text: msg.content }]
+                }))
+            ];
+
 
         const chatSession = model.startChat({
             history: historyForChat,
+
             generationConfig: {
                 maxOutputTokens: 100,
             },
@@ -92,12 +129,9 @@ class AiService {
         return responseText;
     }
 
-    async getChatHistory(userId: string) {
-        const chat = await Chat.findOne({ userId });
-        return chat?.messages || [];
-    }
 
-    async generalChat(prompt: string) {
+    export const generalChat = async (prompt: string): Promise<string> =>{
+
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
@@ -117,19 +151,45 @@ class AiService {
 
         return await response.text();
     }
-
-    async symptomCheck(symptoms: string) {
-        const prompt = `Based on the following symptoms: ${symptoms} please give me a list of possible conditions.`;
+    export const symptomCheck = async (symptoms: string, userId: string): Promise<string> => {
+        const userInfo = await getUserInfo(userId);
+    
+        let userProfileText = "";
+    
+        if (userInfo && userInfo.healthProfile) {
+            const p = userInfo.healthProfile;
+            userProfileText += `Patient Profile:\n`;
+            userProfileText += `- Age: ${p.age}\n`;
+            userProfileText += `- Gender: ${p.gender}\n`;
+            userProfileText += `- Weight: ${p.weight} kg\n`;
+            userProfileText += `- Height: ${p.height} cm\n`;
+            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
+            userProfileText += `- Lifestyle:\n`;
+            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
+            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
+            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
+        } else {
+            userProfileText += `Patient profile is incomplete.\n`;
+        }
+    
+        const prompt = `
+    IMPORTANT: The following is not medical advice. A doctor should be consulted for any health concerns.
+    
+    ${userProfileText}
+    
+    Based on the following symptoms: ${symptoms}, provide a list of *possible* conditions. Begin with a clear disclaimer that this is not a substitute for professional medical advice.
+    `;
+    
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
                 maxOutputTokens: 100,
             }
         });
+    
         const result = await chatSession.sendMessage(prompt);
         const response = result.response;
-
-
+    
         if (!response || !response.candidates || response.candidates.length === 0) {
             let message = "No response from model.";
             if (response?.promptFeedback?.blockReason) {
@@ -140,9 +200,7 @@ class AiService {
             }
             throw new Error(message);
         }
-
+    
         return await response.text();
-    }
-}
-
-export const aiService = new AiService();
+    };
+    
