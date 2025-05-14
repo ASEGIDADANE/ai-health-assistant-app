@@ -1,36 +1,26 @@
 import { Request, Response } from 'express';
-import { getNearbyPlaces } from '../services/googleMapsService';
+import { getNearbyPlaces } from '../services/map.service'; // adjust the path based on your project structure
 
-export const fetchNearbyServices = async (req: Request, res: Response): Promise<void> => {
-  const { lat, lng, type } = req.query;
+export const nearbyPlacesController = async (req: Request, res: Response) => {
+  const { lat, lng, type } = req.body;
 
+  // Validate inputs
   if (!lat || !lng) {
-    res.status(400).json({ message: 'Latitude and longitude are required.' });
-    return;
+    return res.status(400).json({ error: 'Latitude and longitude are required.' });
+  }
+
+  const latitude = parseFloat(lat as string);
+  const longitude = parseFloat(lng as string);
+
+  if (isNaN(latitude) || isNaN(longitude)) {
+    return res.status(400).json({ error: 'Invalid latitude or longitude.' });
   }
 
   try {
-    const latitude = parseFloat(lat as string);
-    const longitude = parseFloat(lng as string);
-    const serviceType = (type as string) || 'hospital';
-
-    const places = await getNearbyPlaces(latitude, longitude, serviceType);
-
-    const formatted = places.map((place) => ({
-      name: place.name,
-      address: place.vicinity,
-      type: serviceType,
-      location: place.geometry.location,
-      rating: place.rating,
-      userRatingsTotal: place.user_ratings_total,
-      contact: place.formatted_phone_number || null,
-    }));
-
-    res.status(200).json(formatted);
-  } catch (error: any) {
-    res.status(500).json({
-      message: 'Failed to fetch nearby services',
-      error: error.message || 'Unknown error',
-    });
+    const places = await getNearbyPlaces(latitude, longitude, type as string);
+    return res.json(places);
+  } catch (error) {
+    console.error('Error fetching nearby places:', error);
+    return res.status(500).json({ error: 'Failed to fetch nearby places.' });
   }
 };
