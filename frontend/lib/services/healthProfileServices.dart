@@ -11,6 +11,8 @@ class HealthProfileService {
  
   Future<void> saveOrUpdateHealthProfile(HealthProfileModel profileData) async {
     final token = await _authService.getToken();
+    
+    print('Tokensss: $token');
     if (token == null) {
       throw Exception('User not authenticated. Cannot save profile.');
     }
@@ -48,7 +50,7 @@ class HealthProfileService {
       }
     } catch (e) {
       // Handle network errors or other exceptions during the request
-      print('Error saving health profile: $e');
+      print('Error saving health profilesss: $e');
       if (e.toString().contains('Connection refused')) {
         throw Exception('Cannot connect to the server. Please ensure the backend is running.');
       }

@@ -41,12 +41,11 @@ class _ChatWithAIContentState extends State<_ChatWithAIContent> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.green[100],
-            child: const Text('H', style: TextStyle(color: Colors.white)),
-          ),
+        leading: IconButton( // Replace CircleAvatar with IconButton
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black), // Back arrow icon
+          onPressed: () {
+            Navigator.of(context).pop(); // Action to go back
+          },
         ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

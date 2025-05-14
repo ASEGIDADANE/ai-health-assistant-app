@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Token } from '../models/Token';
-import { User } from '../models/User';
+// import { User } from '../models/User';
 import crypto from 'crypto';
 
 class AuthService {

@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl = 'http://localhost:5000/api';
+  // final String baseUrl = 'http://13.60.23.17:5000/api/';
+
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
@@ -23,10 +25,10 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        await _saveToken(data['token']);
-        if(data['user']['id'] != null) {
-          await _saveUserId(data['user']['id']);
-        }
+        await _saveToken(data['accessToken']);
+        // if(data['user']['id'] != null) {
+        //   await _saveUserId(data['user']['id']);
+        // }
         return data;
       } else {
         throw Exception(json.decode(response.body)['message'] ?? 'Login failed');
@@ -49,10 +51,10 @@ class AuthService {
 
       if (response.statusCode == 201) {
         final data = json.decode(response.body);
-        await _saveToken(data['token']);
-        if(data['user']['id'] != null) {
-          await _saveUserId(data['user']['id']);
-        }
+        await _saveToken(data['accessToken']);
+        // if(data['user']['id'] != null) {
+        //   await _saveUserId(data['user']['id']);
+        // }
         return data;
       } else {
         throw Exception(json.decode(response.body)['message'] ?? 'Signup failed');
@@ -64,17 +66,17 @@ class AuthService {
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
+    await prefs.remove('accessToken');
   }
 
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    return prefs.getString('accessToken');
   }
 
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
+    await prefs.setString('accessToken', token);
   }
    Future<String?> getUserId() async { // New method to get userId
     final prefs = await SharedPreferences.getInstance();
