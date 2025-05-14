@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { userLoginSchemaZod, userValidationSchema } from "../models/userModel";
+// import { userLoginSchemaZod, userValidationSchema } from "../models/userModel";
+// import User from "../models/userModel";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -28,7 +29,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
 
         res.status(201).json({
             message: 'User registered successfully',
-            accessToken,
+            accessToke
             refreshToken
         });
     } catch (error) {
