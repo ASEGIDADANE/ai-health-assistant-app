@@ -6,6 +6,7 @@ import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import healthProfileRoutes from './routes/healthProfileRoutes';
 import aiRoutes from './routes/aiRoutes';
+import nearbyRoutes from './routes/nearbyRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,11 +28,12 @@ app.use('/api/auth', authRoutes);
 app.use('/api/health', healthProfileRoutes);
 app.use('/api/ai', aiRoutes);
 
-// Add a test route
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'Backend server is running!' });
-});
+app.use('/api/auth',authRoutes );
+app.use('/api/health',healthProfileRoutes );
+app.use('/api/ai',aiRoutes);
+app.use('/api/nearby', nearbyRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
+}
+);
