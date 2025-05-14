@@ -22,20 +22,27 @@ The AI-driven health assistance app aims to provide users with personalized and 
 #### 2.2 Personalized AI Doctor
 * **Purpose:** Provide tailored health insights based on user-specific data.
 * **Features:**
-      🤖 **AI Symptom Checker**
-         * **How it works:**
-               * Users enter symptoms via text or voice (e.g., "I have a fever and headache").
-               * AI asks follow-up questions to gather context (e.g., duration, severity).
-               * It analyzes inputs using medical knowledge and the user’s health profile.
-         * **Outputs:**
-               * Possible conditions (e.g., flu, dehydration).
-               * Next steps (rest, visit doctor, urgent care warning).
-      💡 **Personalized Health Recommendations**
-         * **Based on user profile (age, conditions, habits):**
-               * Diet & exercise tips
-               * Medication reminders
-               * Health check-up alerts
-               * Educational content (articles, videos)
+   ## 🤖 AI Symptom Checker
+
+   ### How it works:
+   - Users enter symptoms via text or voice (e.g., "I have a fever and headache").
+   - AI asks follow-up questions to gather context (e.g., duration, severity).
+   - It analyzes inputs using medical knowledge and the user’s health profile.
+   
+   ### Outputs:
+   - Possible conditions (e.g., flu, dehydration).
+   - Next steps (rest, visit doctor, urgent care warning).
+   
+   ---
+   
+   ## 💡 Personalized Health Recommendations
+   
+   ### Based on user profile (age, conditions, habits):
+   - Diet & exercise tips  
+   - Medication reminders  
+   - Health check-up alerts  
+   - Educational content (articles, videos)
+
    
 
 #### 2.3 General AI Doctor
