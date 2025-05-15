@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { userLoginSchemaZod, userValidationSchema } from "../models/userModel";
+// import { userLoginSchemaZod, userValidationSchema } from "../models/userModel";
+// import User from "../models/userModel";
 import User from "../models/userModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -12,7 +13,7 @@ import { z } from "zod";
 export const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
         
-        const { email, password, name } = req.body;
+        const { email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -23,7 +24,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         const user = await User.create({
             email,
             password: hashedPassword,
-            name
+            
         });
 
         const { accessToken, refreshToken } = authService.generateTokens(user._id as string);
@@ -32,7 +33,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         res.status(201).json({
             message: 'User registered successfully',
             accessToken,
-            refreshToken
+            refreshToken,
+            id: user._id,
+            profileCompleted: user.profileCompleted,
         });
     } catch (error) {
         next(error);
@@ -62,7 +65,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         res.json({
             message: 'Login successful',
             accessToken,
-            refreshToken
+            refreshToken,
+            id:user._id,
+            profileCompleted: user.profileCompleted,
+
         });
     } catch (error) {
         next(error);

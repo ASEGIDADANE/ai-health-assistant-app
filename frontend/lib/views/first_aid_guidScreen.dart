@@ -71,6 +71,17 @@ class FirstAidGuidePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () {
+             
+              Navigator.pop(context);
+
+             
+            },
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: Column(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/view_models/auth_viewModel.dart';
+import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'homeScreen.dart';
@@ -44,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // Navigate to home screen
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const homeScreen()),
+          MaterialPageRoute(builder: (context) => const ProfileHomeScreen()),
         );
       } else if (mounted) {
         // Show error message
