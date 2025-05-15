@@ -29,6 +29,8 @@ class HealthProfileService {
         },
         body: jsonEncode(profileData.toJson()), // Use the toJson method from your model
       );
+      print('response status code: ${response.statusCode}');
+      print('response body: ${response.body}'); 
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Successfully saved or updated

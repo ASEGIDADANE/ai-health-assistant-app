@@ -12,7 +12,7 @@ class ApiService {
     try {
       final token = await _authService.getToken();
       final userId = await _authService.getUserId();
-      print('userId: $userId');
+      print('userIds: $userId');
       if (token == null) {
         throw Exception('User not authenticated. Cannot send message.');
       }
