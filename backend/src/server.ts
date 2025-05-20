@@ -6,7 +6,8 @@ import connectDB from './config/db';
 import authRoutes from './routes/authRoutes';
 import healthProfileRoutes from './routes/healthProfileRoutes';
 import aiRoutes from './routes/aiRoutes';
-import nearbyRoutes from './routes/nearbyRoutes';
+import healthRoutes from './routes/healthRoutes';   
+import nearbyRoutes from './routes/nearbyRoutes'; 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // middleware
-app.use(cors({
-  origin: '*', // Allow all origins in development
+app.use(cors({ 
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -27,13 +28,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/health', healthProfileRoutes);
 app.use('/api/ai', aiRoutes);
-
-app.use('/api/auth',authRoutes );
-app.use('/api/health',healthProfileRoutes );
-app.use('/api/ai',aiRoutes);
-app.use('/api/nearby', nearbyRoutes);
+app.use('/api/healthsnippets', healthRoutes); 
+app.use('/api/nearby', nearbyRoutes);      
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
-}
-);
+});
