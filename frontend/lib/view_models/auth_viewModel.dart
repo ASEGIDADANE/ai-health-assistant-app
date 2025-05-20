@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 import 'package:frontend/services/authService.dart';
 
@@ -9,10 +7,12 @@ class AuthViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   bool _isAuthenticated = false;
+  bool _isProfileCompleted = false;
 
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isAuthenticated => _isAuthenticated;
+  bool get isProfileCompleted => _isProfileCompleted;
 
   Future<bool> login(String email, String password) async {
     _isLoading = true;
@@ -20,9 +20,10 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authService.login(email, password);
+     final response =   await _authService.login(email, password);
       _isAuthenticated = true;
       _isLoading = false;
+      _isProfileCompleted = response['profileCompleted'] ?? false;
       notifyListeners();
       return true;
     } catch (e) {
@@ -39,8 +40,9 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _authService.signup(email, password);
+      final response = await _authService.signup(email, password);
       _isAuthenticated = true;
+    _isProfileCompleted = response['profileCompleted'] ?? false;
       _isLoading = false;
       notifyListeners();
       return true;
@@ -55,6 +57,8 @@ class AuthViewModel extends ChangeNotifier {
   Future<void> logout() async {
     await _authService.logout();
     _isAuthenticated = false;
+    _isProfileCompleted = false;
+    _isLoading = false;
     notifyListeners();
   }
 

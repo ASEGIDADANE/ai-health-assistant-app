@@ -6,9 +6,11 @@ import 'package:frontend/view_models/general_chat_viewModel.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
 import 'package:frontend/view_models/symptom_view_model.dart';
 import 'package:frontend/views/Profile_home_screen.dart';
+import 'package:frontend/views/authscreen.dart';
 import 'package:frontend/views/onbordingScreen.dart';
 // import 'package:frontend/views/onbordingScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
+import 'package:frontend/views/splash.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/view_models/auth_viewModel.dart';
 
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HealthProfileViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => GeneralChatViewModel()),
-
+        
 
       ],
       child: MaterialApp(

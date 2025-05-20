@@ -22,6 +22,7 @@ export const generateResponse = async (
     if (!userId) {
       return res.status(400).json({ message: "userId is required." });
     }
+    
 
     const responseText = await generateAiResponse(prompt, userId);
     res.status(200).json({ response: responseText });
