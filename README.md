@@ -22,15 +22,28 @@ The AI-driven health assistance app aims to provide users with personalized and 
 #### 2.2 Personalized AI Doctor
 * **Purpose:** Provide tailored health insights based on user-specific data.
 * **Features:**
-    * **Symptom Checker:**
-        * Users input symptoms through text or voice (e.g., "I have a headache and fever").
-        * AI asks clarifying questions to gather more information.
-        * AI analyzes symptoms based on user profile and medical knowledge.
-        * Output: Potential conditions, possible causes, and recommendations for next steps (e.g., rest, consult a doctor).
-    * **Personalized Recommendations:**
-        * Offers advice on diet, exercise, and lifestyle adjustments based on the user's profile.
-        * Provides reminders for medications or health check-ups.
-        * Suggests relevant health resources and information tailored to the user's conditions.
+   ## 🤖 AI Symptom Checker
+
+   ### How it works:
+   - Users enter symptoms via text or voice (e.g., "I have a fever and headache").
+   - AI asks follow-up questions to gather context (e.g., duration, severity).
+   - It analyzes inputs using medical knowledge and the user’s health profile.
+   
+   ### Outputs:
+   - Possible conditions (e.g., flu, dehydration).
+   - Next steps (rest, visit doctor, urgent care warning).
+   
+   ---
+   
+   ## 💡 Personalized Health Recommendations
+   
+   ### Based on user profile (age, conditions, habits):
+   - Diet & exercise tips  
+   - Medication reminders  
+   - Health check-up alerts  
+   - Educational content (articles, videos)
+
+   
 
 #### 2.3 General AI Doctor
 * **Purpose:** Address general health inquiries with evidence-based information.
@@ -45,6 +58,8 @@ The AI-driven health assistance app aims to provide users with personalized and 
     * **General Triage:**
         * Users input symptom text.
         * AI assesses the urgency level (e.g., urgent, non-urgent, emergency).
+      
+          
 
 #### 2.4 Multilingual Support
 * **Translation pipeline:**
