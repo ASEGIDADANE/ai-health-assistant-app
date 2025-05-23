@@ -3,7 +3,7 @@ import 'package:frontend/view_models/auth_viewModel.dart';
 import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'homeScreen.dart';
+// import 'homeScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 
 class nearbyService {
   
-  static const String baseUrl = 'http://10.0.2.2:5000/api'; 
+  static const String baseUrl = 'http://localhost:5000/api'; 
                                                         
 
   Future<String> findnearbyService(String lat,String lng,String type) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/ai/nearby/nearby'),
+        Uri.parse('$baseUrl/nearby/nearby'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -18,7 +18,7 @@ class nearbyService {
         body: jsonEncode({
           'lat': lat,
           'lng': lng,
-          'type': type // Corrected: use the 'type' parameter
+          'type': type,
         }),
       );
 
@@ -27,17 +27,11 @@ class nearbyService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        
-        if (data['response'] is String) {
-          return data['response'];
-        } else if (data['response'] != null) {
-          
-          return jsonEncode(data['response']);
-        }
-        return '[]'; 
+        // The backend returns an array of places directly
+        return jsonEncode(data);
       } else {
         final errorData = jsonDecode(response.body);
-        throw Exception('Server error: ${errorData['nearby'] ?? 'Unknown error'}');
+        throw Exception('Server error: ${errorData['error'] ?? 'Unknown error'}');
       }
     } catch (e) {
       print('Error in findnearbyService: $e');

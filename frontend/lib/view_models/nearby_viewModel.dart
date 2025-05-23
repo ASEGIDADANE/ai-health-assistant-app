@@ -24,10 +24,8 @@ class NearbyViewModel extends ChangeNotifier {
     try {
       final String jsonStringResponse = await _nearbyService.findnearbyService(lat, lng, type);
       
-     
       final List<dynamic> decodedList = jsonDecode(jsonStringResponse);
       _nearbyPlaces = decodedList.map((item) => NearbyPlace.fromJson(item as Map<String, dynamic>)).toList();
-
     } catch (e) {
       _error = e.toString().replaceAll('Exception: ', '');
       _nearbyPlaces = []; 
