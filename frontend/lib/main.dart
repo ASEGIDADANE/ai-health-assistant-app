@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:frontend/view_models/chat_viewModel.dart';
 import 'package:frontend/view_models/general_chat_viewModel.dart';
 import 'package:frontend/view_models/healthProfile_viewModel.dart';
+import 'package:frontend/view_models/nearby_viewModel.dart';
 import 'package:frontend/view_models/symptom_view_model.dart';
 import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:frontend/views/authscreen.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HealthProfileViewModel()),
         ChangeNotifierProvider(create: (_) => ChatViewModel()),
         ChangeNotifierProvider(create: (_) => GeneralChatViewModel()),
+        ChangeNotifierProvider(create: (_) => NearbyViewModel()),
+
         
 
       ],

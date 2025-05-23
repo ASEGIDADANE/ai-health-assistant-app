@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   provider: ^6.1.5
   jwt_decoder: ^2.0.1
+  geolocator: ^14.0.0
+  
  
 
 dev_dependencies:
