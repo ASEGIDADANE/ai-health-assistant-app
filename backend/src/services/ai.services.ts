@@ -82,7 +82,7 @@ const model = genAI.getGenerativeModel({
         prompt += userProfileText
         const promptText = `
         when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
-        just answer the question. i need only the answer. when you answer user questions, relate the answer with the user profile be 
+        . when you answer user questions, relate the answer with the user profile be 
         specific to th user profile and give short explanations.
 
         ${prompt}`;
@@ -147,7 +147,7 @@ const model = genAI.getGenerativeModel({
         });
         const promptText =  `
         when responding please be as concise as possible, don't repeat the question, and don't add any extra information.
-        and try to answer the question in simple way and make it short and clear
+        and try to answer the question in simple way and make it clear
         ${prompt}`;
         
         const result = await chatSession.sendMessage(promptText);
