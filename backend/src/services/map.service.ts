@@ -45,14 +45,14 @@ export const getNearbyPlaces = async (
     // Normalize and format results
     const results = data.elements.map((place, index) => ({
       name: place.tags.name || 'Unknown',
-      place_id: `place_${index}`, // Generate a simple ID (OSM doesn’t give one)
+      place_id: `place_${index}`, 
       geometry: {
         location: {
           lat: place.lat,
           lng: place.lon,
         },
       },
-      vicinity: 'Unknown vicinity', // You can enhance this later with reverse geocoding
+      vicinity: 'Unknown vicinity', 
       amenity: place.tags.amenity,
     }));
 
@@ -60,6 +60,6 @@ export const getNearbyPlaces = async (
 
   } catch (error) {
     console.error('Failed to fetch nearby places:', error);
-    return []; // Return empty array on error
+    return []; 
   }
 };

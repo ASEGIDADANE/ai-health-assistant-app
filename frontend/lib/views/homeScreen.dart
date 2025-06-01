@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/views/chat_with_ai_page.dart';
 import 'package:frontend/views/first_aid_guidScreen.dart';
+import 'package:frontend/views/nearby_page.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
 import 'package:frontend/widget/daily_snippet_widget.dart';
 
 class homeScreen extends StatelessWidget {
   const homeScreen({super.key});
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +102,7 @@ class homeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder:
-                                (_) => const PlaceholderPage(
-                                  title: 'Nearby Services',
-                                ),
+                                (_) => NearbyHospitalsScreen()
                           ),
                         ),
                   ),

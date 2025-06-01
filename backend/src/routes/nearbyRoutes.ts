@@ -6,6 +6,6 @@ import { nearbyPlacesController } from "../controllers/nearbyControllers";
 
 const router =  Express.Router();
 
-router.get("/nearby", nearbyPlacesController);
+router.post("/nearby", nearbyPlacesController);
 
 export default router;
