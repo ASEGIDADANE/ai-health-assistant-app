@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/views/chat_with_ai_page.dart';
 import 'package:frontend/views/first_aid_guidScreen.dart';
 import 'package:frontend/views/symptom_checker_page.dart';
+import 'package:frontend/widget/daily_snippet_widget.dart';
 
 class homeScreen extends StatelessWidget {
   const homeScreen({super.key});
@@ -35,7 +36,16 @@ class homeScreen extends StatelessWidget {
               'How can we help you today?',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(
+              height: 16,
+            ), 
+            
+            const DailyHealthSnippet(),
+
+            
+            const SizedBox(
+              height: 24,
+            ), 
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
@@ -50,10 +60,7 @@ class homeScreen extends StatelessWidget {
                     onTap:
                         () => Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => ChatWithAIPage()
-                          ),
+                          MaterialPageRoute(builder: (_) => ChatWithAIPage()),
                         ),
                   ),
                   _HomeCard(
@@ -65,8 +72,7 @@ class homeScreen extends StatelessWidget {
                         () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder:
-                                (_) => FirstAidGuidePage()
+                            builder: (_) => FirstAidGuidePage(),
                           ),
                         ),
                   ),
@@ -79,8 +85,7 @@ class homeScreen extends StatelessWidget {
                         () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder:
-                                (_) => const SymptomCheckerPage()
+                            builder: (_) => const SymptomCheckerPage(),
                           ),
                         ),
                   ),
@@ -138,7 +143,12 @@ class _HomeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.grey[200]!),
         ),
-        padding: const EdgeInsets.only(left: 16, right:16,top:16,bottom:11),
+        padding: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 16,
+          bottom: 11,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
