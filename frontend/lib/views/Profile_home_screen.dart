@@ -93,7 +93,7 @@ class ProfileHomeScreen extends StatelessWidget {
                   //   const SnackBar(
                   //       content: Text('General Chat Tapped (Not Implemented)')),
                   // );
-                  AppNavigator.push(context, const GeneralChatWithAi());
+                  AppNavigator.push(context, const homeScreen());
                   // AppNavigator.push(context, );
                 },
               ),

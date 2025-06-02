@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/Profile_home_screen.dart';
 import 'package:frontend/views/chat_with_ai_page.dart';
 import 'package:frontend/views/first_aid_guidScreen.dart';
 import 'package:frontend/views/nearby_page.dart';
@@ -25,6 +26,22 @@ class homeScreen extends StatelessWidget {
           'Health Assistant',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        // give me eixt text and when click navigate to other page
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.backpack_rounded),
+            onPressed: () {
+              // Navigate to notifications page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProfileHomeScreen(),
+                ),
+              );
+            },
+          ),
+         
+        ],
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
@@ -159,7 +176,7 @@ class _HomeCard extends StatelessWidget {
             Text(
               textAlign: TextAlign.center,
               title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             const SizedBox(height: 8),
             Text(
