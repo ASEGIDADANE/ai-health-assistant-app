@@ -163,41 +163,21 @@ const model = genAI.getGenerativeModel({
 
         return await response.text();
     }
+
     export const symptomCheck = async (symptoms: string, userId: string): Promise<string> => {
-        const userInfo = await getUserInfo(userId);
-    
-        let userProfileText = "";
-    
-        if (userInfo && userInfo.healthProfile) {
-            const p = userInfo.healthProfile;
-            userProfileText += `Patient Profile:\n`;
-            userProfileText += `- Age: ${p.age}\n`;
-            userProfileText += `- Gender: ${p.gender}\n`;
-            userProfileText += `- Weight: ${p.weight} kg\n`;
-            userProfileText += `- Height: ${p.height} cm\n`;
-            userProfileText += `- Medical History: ${p.medicalHistory?.length ? p.medicalHistory.join(", ") : "None"}\n`;
-            userProfileText += `- Lifestyle:\n`;
-            userProfileText += `  - Smoking: ${p.lifestyle.smoking ? "Yes" : "No"}\n`;
-            userProfileText += `  - Alcohol: ${p.lifestyle.alcohol ? "Yes" : "No"}\n`;
-            userProfileText += `  - Exercise Frequency: ${p.lifestyle.exerciseFrequency}\n`;
-        } else {
-            userProfileText += `Patient profile is incomplete.\n`;
-        }
-    
         const prompt = `
-    You are a medical assistant. Your task is to assist in identifying possible conditions based on symptoms provided by the user.
-    what you are doing know you going to give a list of possible five conditions based on the symptoms provided by the user.
-    try to relate the conditons with the user profile.    
-    ${userProfileText}
+    You are a medical assistant. Provide a simple numbered list (1-5) of possible medical conditions related to the following symptoms, without descriptions.
     
-    Based on the following symptoms: ${symptoms}, provide a list of *possible* conditions. Begin with a clear disclaimer that this is not a substitute for professional medical advice.
+    Symptoms: ${symptoms}
+    
+    Just list the condition names, nothing else.
     `;
     
         const chatSession = model.startChat({
             history: [],
             generationConfig: {
                 maxOutputTokens: 100,
-            }
+            },
         });
     
         const result = await chatSession.sendMessage(prompt);
@@ -214,6 +194,16 @@ const model = genAI.getGenerativeModel({
             throw new Error(message);
         }
     
-        return await response.text();
+        const rawText = await response.text();
+    
+        // Clean up: only keep numbered lines, remove stars, backslashes, and trim
+        const cleanedList = rawText
+            .split("\n")
+            .map(line => line.trim())
+            .filter(line => /^\d+\.\s*/.test(line)) // keep lines like "1. Disease"
+            .map(line => line.replace(/^\d+\.\s*/, "")) // remove number prefix
+            .join("\n");
+    
+        return cleanedList;
     };
     
