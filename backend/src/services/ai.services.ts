@@ -99,7 +99,7 @@ const model = genAI.getGenerativeModel({
             history: historyForChat,
 
             generationConfig: {
-                maxOutputTokens: 100,
+                maxOutputTokens: 1000,
             },
         });
 
