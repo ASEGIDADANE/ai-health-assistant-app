@@ -61,7 +61,7 @@ const model = genAI.getGenerativeModel({
         //const userInfo =  await HealthProfile.findOne({ user: userId }).lean();
 
         
-        let userProfileText = "";
+        let userProfileText = "please based on my current health profile please give me deep explanation like my body mass and other health related information.\n";
 
         if (userInfo && userInfo.healthProfile) {
             const p = userInfo.healthProfile;
