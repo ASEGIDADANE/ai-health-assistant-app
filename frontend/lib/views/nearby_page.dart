@@ -484,51 +484,52 @@ class NearbyHospitalsScreen extends StatelessWidget {
   // Create a list of dummy NearbyPlace objects
   static final List<NearbyPlace> _dummyPlaces = [
     NearbyPlace(
-      name: "Paul's Hospitals (Dummy)",
+      name: "Adama General Hospital ",
       placeId: 'dummy_place_1',
       geometry: Geometry(
-        location: Location(lat: 9.0216, lng: 38.7495), // Example coordinates
+        location: Location(lat:8.562796611458268, lng:39.28300998298119), // Example coordinates
       ),
-      vicinity: '123 Main St, Addis Ababa (Dummy)',
+      vicinity: '04 , Adama ,  Oromia',
       amenity: 'hospital',
     ),
     NearbyPlace(
-      name: 'Black Lion Hospital (Dummy)',
+      name: 'Bati Hospital',
       placeId: 'dummy_place_2',
       geometry: Geometry(
-        location: Location(lat: 9.0150, lng: 38.7600), // Example coordinates
+        location: Location(lat:8.55454209125632, lng:39.27841682956617), // Example coordinates
       ),
-      vicinity: 'Ras Desta Damtew St, Addis Ababa (Dummy)',
+     vicinity: 'Bole , Adama ,  Oromia',
       amenity: 'hospital',
     ),
     NearbyPlace(
-      name: 'Zewditu Memorial Hospital (Dummy)',
+      name: 'Muse General Hospital',
       placeId: 'dummy_place_3',
       geometry: Geometry(
-        location: Location(lat: 9.0083, lng: 38.7550), // Example coordinates
+        location: Location(lat:8.555938841140339, lng:39.27826275229818), // Example coordinates
       ),
-      vicinity: '432 Addis Ketema St, Addis Ababa (Dummy)',
+      vicinity: '04 , Adama ,  Oromia',
       amenity: 'hospital',
     ),
     NearbyPlace(
-      name: 'Yekatit 12 Hospital (Dummy)',
+      name: 'Adama Hospital',
       placeId: 'dummy_place_4',
       geometry: Geometry(
-        location: Location(lat: 9.0300, lng: 38.7620), // Example coordinates
+        location: Location(lat:8.54412780912554,lng:39.27229999888317), // Example coordinates
       ),
-      vicinity: '249 Churchill Road, Addis Ababa (Dummy)',
+      vicinity: '04 , Adama ,  Oromia',
       amenity: 'hospital',
     ),
      NearbyPlace(
-      name: 'Kadisco General Hospital (Dummy)',
+      name: 'Medhin Hospital ',
       placeId: 'dummy_place_5',
       geometry: Geometry(
-        location: Location(lat: 8.9948, lng: 38.7860), // Example coordinates for Kadisco area
+        location: Location(lat:8.555723635110878, lng:39.272629606834165), // Example coordinates for Kadisco area
       ),
-      vicinity: 'Near Kadisco roundabout, Addis Ababa (Dummy)',
+      vicinity: 'Bole , Adama ,  Oromia',
       amenity: 'hospital',
     ),
   ];
+
 
   @override
   Widget build(BuildContext context) {
