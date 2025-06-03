@@ -4,9 +4,9 @@
   "description": "Backend for AI Health Assistant application",
   "main": "dist/server.js",
   "scripts": {
-    "start": "node dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "start": "node api.js && node dist/server.js",
+    "dev": "node api.js && ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "node api.js && tsc",
     "lint": "eslint . --ext .ts",
     "test": "jest"
   },
