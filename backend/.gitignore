@@ -2,3 +2,12 @@ node_modules
 package-lock.json
 dist
 .env
+coverage    
+.vscode
+.DS_Store
+# Logs
+logs
+npm-debug.log*
+
+
+
